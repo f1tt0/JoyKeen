@@ -47,13 +47,11 @@ class GameService:
         return self.games
 
     def get_game(self, game_id: UUID) -> Optional[GameResponse]:
-        # Зверни увагу: тепер поле називається game_id, а не id
         return next((game for game in self.games if game.game_id == game_id), None)
 
     def update_game(self, game_id: UUID, updated_data: GameUpdate) -> Optional[GameResponse]:
         for idx, game in enumerate(self.games):
             if game.game_id == game_id:
-                # Оновлюємо тільки ті поля, які були передані
                 update_dict = updated_data.model_dump(exclude_unset=True)
                 updated_game = game.model_copy(update=update_dict)
                 self.games[idx] = updated_game
